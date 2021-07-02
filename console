@@ -1,0 +1,48 @@
+create database CaseStudy;
+use casestudy;
+create table customers(
+    customerID int primary key auto_increment,
+    customerName varchar(50) not null ,
+    customerPhone int(10) not null unique ,
+    customerEmail varchar(50) ,
+    customerAddress varchar(50) not null ,
+    userName varchar(50) not null unique ,
+    password varchar(50) not null
+
+);
+# drop table customers;
+create table products(
+    productID int primary key auto_increment,
+    productName int not null unique ,
+    provide varchar(50) not null ,
+    productDescription varchar(255),
+    productPrice double not null ,
+    productQuantity int not null ,
+    productImage varchar(255) not null ,
+    categoryId int not null
+);
+create table category(
+  categoryId int primary key auto_increment,
+  categoryName varchar(50) not null ,
+  categoryDescription varchar(255)
+);
+# drop table category;
+alter table products
+add foreign key (categoryId) references category(categoryId);
+create table orders(
+  orderID int primary key auto_increment,
+  customerID int not null ,
+  orderDate DATE not null ,
+  isShipped boolean not null
+);
+alter table orders
+add foreign key (customerID) references customers(customerID);
+create table orderDetail(
+    orderId int not null ,
+    productId int not null ,
+    quantityOrder int not null,
+    payAmount DOUBLE not null
+);
+alter table orderDetail
+add foreign key (orderId) references orders(orderId),
+    add foreign key (productId) references products(productID);
